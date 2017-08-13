@@ -557,7 +557,7 @@ $(my_generated_sources): PRIVATE_MODULE := $(my_register_name)
 my_gen_sources_copy := $(patsubst $(generated_sources_dir)/%,$(intermediates)/%,$(filter $(generated_sources_dir)/%,$(my_generated_sources)))
 
 $(my_gen_sources_copy): $(intermediates)/% : $(generated_sources_dir)/% | $(ACP)
-	@echo "Copy: $@"
+	@echo -e ${CL_YLW}"Copy:"${CL_RST}" $$@"
 	$(copy-file-to-target)
 
 my_generated_sources := $(patsubst $(generated_sources_dir)/%,$(intermediates)/%,$(my_generated_sources))
@@ -712,7 +712,7 @@ proto_intermediate_dir := $(intermediates)/proto
 proto_intermediate_cpps := $(patsubst $(proto_gen_dir)/%,$(proto_intermediate_dir)/%,\
     $(proto_generated_cpps))
 $(proto_intermediate_cpps) : $(proto_intermediate_dir)/% : $(proto_gen_dir)/% | $(ACP)
-	@echo "Copy: $@"
+	@echo -e ${CL_YLW}"Copy:"${CL_RST}" $$@"
 	$(copy-file-to-target)
 	$(hide) cp $(basename $<).h $(basename $@).h
 $(call track-src-file-gen,$(proto_sources),$(proto_intermediate_cpps))
@@ -1219,7 +1219,7 @@ import_includes_deps := $(strip \
       $(call intermediates-dir-for,STATIC_LIBRARIES,$(l),$(LOCAL_IS_HOST_MODULE),,$(LOCAL_2ND_ARCH_VAR_PREFIX),$(my_host_cross))/export_includes))
 $(import_includes): PRIVATE_IMPORT_EXPORT_INCLUDES := $(import_includes_deps)
 $(import_includes) : $(LOCAL_MODULE_MAKEFILE_DEP) $(import_includes_deps)
-	@echo Import includes file: $@
+	@echo -e ${CL_CYN}Import includes file:${CL_RST} $@
 	$(hide) mkdir -p $(dir $@) && rm -f $@
 ifdef import_includes_deps
 	$(hide) for f in $(PRIVATE_IMPORT_EXPORT_INCLUDES); do \
@@ -1469,7 +1469,7 @@ $(export_includes): PRIVATE_EXPORT_C_INCLUDE_DIRS := $(my_export_c_include_dirs)
 # By adding $(my_generated_sources) it makes sure the headers get generated
 # before any dependent source files get compiled.
 $(export_includes) : $(my_generated_sources) $(export_include_deps)
-	@echo Export includes file: $< -- $@
+	@echo -e ${CL_CYN}Export includes file:${CL_RST} $< -- $@
 	$(hide) mkdir -p $(dir $@) && rm -f $@.tmp
 ifdef my_export_c_include_dirs
 	$(hide) for d in $(PRIVATE_EXPORT_C_INCLUDE_DIRS); do \

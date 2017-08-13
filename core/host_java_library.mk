@@ -74,11 +74,11 @@ $(full_classes_compiled_jar): \
 ifneq ($(strip $(LOCAL_JARJAR_RULES)),)
 $(full_classes_jarjar_jar): PRIVATE_JARJAR_RULES := $(LOCAL_JARJAR_RULES)
 $(full_classes_jarjar_jar): $(full_classes_compiled_jar) $(LOCAL_JARJAR_RULES) | $(JARJAR)
-	@echo JarJar: $@
+	@echo -e ${CL_GRN}"JarJar:"${CL_RST}" $@"
 	$(hide) java -jar $(JARJAR) process $(PRIVATE_JARJAR_RULES) $< $@
 else
 $(full_classes_jarjar_jar): $(full_classes_compiled_jar) | $(ACP)
-	@echo Copying: $@
+	@echo -e ${CL_YLW}"Copying:"${CL_RST}" $@"
 	$(hide) $(ACP) -fp $< $@
 endif
 
@@ -98,12 +98,12 @@ $(full_classes_emma_jar) : $(full_classes_jarjar_jar) | $(EMMA_JAR)
 	$(transform-classes.jar-to-emma)
 
 $(built_javalib_jar) : $(full_classes_emma_jar)
-	@echo Copying: $@
+	@echo -e ${CL_YLW}"Copying:"${CL_RST}" $@"
 	$(hide) $(ACP) -fp $< $@
 
 else # LOCAL_EMMA_INSTRUMENT
 $(built_javalib_jar): $(full_classes_jarjar_jar) | $(ACP)
-	@echo Copying: $@
+	@echo -e ${CL_YLW}"Copying:"${CL_RST}" $@"
 	$(hide) $(ACP) -fp $< $@
 endif # LOCAL_EMMA_INSTRUMENT
 
